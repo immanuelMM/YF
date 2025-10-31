@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>QuickHomeLoans — Fast Mortgage Pre-Approval</title>
+  <meta name="description" content="Get pre-approved in minutes. Compare competitive mortgage offers from licensed local lenders." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --accent:#0b6ef6;
+      --accent-700:#0956c1;
+      --bg:#f6f9ff;
+      --card:#ffffff;
+      --muted:#6b7280;
+      --radius:12px;
+      --max-w:1200px;
+      --pad:clamp(16px, 4vw, 48px);
+      font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      color-scheme:light;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,var(--bg),#ffffff);
+      color:#0f1724;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+      font-size:16px;
+    }
+
+    /* ---------- Header (full-width) ---------- */
+    header.site-header{
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:14px var(--pad);
+      gap:16px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.78));
+      position:sticky;
+      top:0;
+      z-index:60;
+      box-shadow:0 6px 24px rgba(2,6,23,0.06);
+      backdrop-filter: blur(6px) saturate(120%);
+    }
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo-square{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-700));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+    .brand-title{font-weight:700;color:var(--accent-700)}
+    nav.primary{display:flex;gap:18px;align-items:center}
+    nav.primary a{color:var(--muted);text-decoration:none;font-weight:600}
+    nav.primary a:hover{color:var(--accent-700)}
+
+    /* ---------- Hero (full-bleed fixed background) ---------- */
+    .hero{
+      position:relative;
+      min-height:72vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:100%;
+      overflow:hidden;
+      margin:0; /* no left/right margin - full-bleed */
+    }
+    .hero-bg{
+      position:fixed; /* fixed for parallax-like effect on desktop */
+      inset:0;
+      z-index:-2;
+      background-image:url('frames-for-your-heart-mR1CIDduGLc-unsplash.jpg');
+      background-size:cover;
+      background-position:center center;
+      background-attachment: fixed;
+      filter:contrast(1.02) saturate(0.98);
+      transform:translateZ(0);
+    }
+    /* fallback for mobile where fixed backgrounds can be janky */
+    @media (max-width:900px){
+      .hero-bg{position:absolute;background-attachment:scroll}
+    }
+
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(3,7,18,0.36), rgba(3,7,18,0.44));z-index:-1}
+    .hero-inner{
+      width:100%;
+      max-width:var(--max-w);
+      padding:calc(var(--pad) * 1.2);
+      display:grid;
+      grid-template-columns:1fr 440px;
+      gap:32px;
+      align-items:center;
+    }
+    .hero-left{color:#ffffff}
+    .eyebrow{display:inline-block;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.95);padding:8px 12px;border-radius:999px;font-weight:700;font-size:0.86rem}
+    h1.hero-title{font-size:2.4rem;margin:12px 0 10px;line-height:1.02;font-weight:800}
+    p.lead{color:rgba(255,255,255,0.92);margin:0 0 18px;font-size:1.05rem}
+    .hero-ctas{display:flex;gap:12px;flex-wrap:wrap}
+    .btn{padding:12px 16px;border-radius:12px;font-weight:800;border:0;cursor:pointer}
+    .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-700));color:#fff;box-shadow:0 12px 40px rgba(11,110,246,0.12)}
+    .btn-ghost{background:rgba(255,255,255,0.12);color:#fff;border:1px solid rgba(255,255,255,0.12)}
+
+    /* ---------- Lead card (right) ---------- */
+    .lead-card{
+      background:linear-gradient(180deg, #ffffff, #fcfeff);
+      padding:18px;border-radius:14px;
+      box-shadow:0 22px 50px rgba(2,6,23,0.08);
+      color:#071227;
+    }
+    .lead-card h3{margin:0 0 8px;font-size:1.05rem}
+    .muted{color:var(--muted)}
+    .field{display:flex;flex-direction:column;margin-bottom:10px}
+    label{font-weight:700;font-size:0.9rem;margin-bottom:6px;color:#0b1420}
+    input,select,textarea{padding:10px 12px;border-radius:10px;border:1px solid #e6eef8;font-size:0.95rem}
+    textarea{min-height:100px;resize:vertical}
+    .submit{width:100%;margin-top:6px;background:linear-gradient(90deg,var(--accent),var(--accent-700));color:#fff;padding:12px;border-radius:10px;border:0;font-weight:800;cursor:pointer}
+
+    /* ---------- Sections (full-bleed with inner container) ---------- */
+    section.full-bleed{
+      width:100%;
+      padding:48px 0; /* outer spacing - full-bleed */
+      margin:0;
+    }
+    .inner{
+      max-width:var(--max-w);
+      margin:0 auto;
+      padding:0 var(--pad); /* internal content padding */
+    }
+
+    .section-quiet{background:linear-gradient(180deg,#ffffff,#fbfdff)}
+    .section-soft{background:linear-gradient(180deg,#f7fbff,#ffffff)}
+
+    .split{display:grid;grid-template-columns:1fr 480px;gap:28px;align-items:center}
+    .split.reverse{grid-template-columns:480px 1fr}
+
+    .section h2{font-size:1.45rem;margin-bottom:6px}
+    .section p.lead-muted{color:var(--muted);margin:0 0 14px}
+
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:12px}
+    .feature{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 10px 30px rgba(2,6,23,0.04)}
+    .feature h4{margin:8px 0;color:var(--accent-700)}
+    .feature p{margin:0;color:var(--muted);font-size:0.95rem}
+
+    .visual{width:100%;border-radius:12px;overflow:hidden;box-shadow:0 16px 36px rgba(2,6,23,0.06)}
+    .visual img{display:block;width:100%;height:auto}
+    
+    /* Text above image in visual block */
+.visual-with-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.visual-with-text .visual-text {
+  margin-bottom: 16px;
+}
+
+.visual-with-text h3 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--accent-700);
+  margin-bottom: 6px;
+}
+
+.visual-with-text p {
+  font-size: 1.05rem;
+  color: var(--muted);
+  max-width: 600px;
+}
+
+.visual-with-text img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 14px 36px rgba(2,6,23,0.06);
+  object-fit: cover;
+}
+
+
+    .steps{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+    .step{display:flex;gap:12px;align-items:flex-start;background:var(--card);padding:12px;border-radius:12px;box-shadow:0 8px 24px rgba(2,6,23,0.04)}
+    .num{width:42px;height:42px;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent-700));color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center}
+
+    /* FAQ layout */
+    .faq-grid{display:grid;grid-template-columns:1fr 420px;gap:24px;align-items:start;margin-top:18px}
+    details.faq{background:var(--card);padding:12px;border-radius:10px;box-shadow:0 8px 24px rgba(2,6,23,0.03)}
+    summary{font-weight:800;cursor:pointer}
+    details p{color:var(--muted);margin:8px 0 0}
+
+    /* Footer full width */
+    footer.global-footer{width:100%;padding:28px 0;background:linear-gradient(180deg,#ffffff,#fbfdff)}
+    footer .inner{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;color:var(--muted);font-size:0.95rem}
+
+    /* Responsive */
+    @media (max-width:1060px){
+      .hero-inner{grid-template-columns:1fr}
+      .split{grid-template-columns:1fr}
+      .split.reverse{grid-template-columns:1fr}
+      .faq-grid{grid-template-columns:1fr}
+      .features{grid-template-columns:repeat(2,1fr)}
+    }
+    @media (max-width:720px){
+      .features{grid-template-columns:1fr}
+      nav.primary{display:none}
+      h1.hero-title{font-size:1.85rem}
+      .lead-card{padding:14px}
+      .hero-bg{background-attachment:scroll}
+    }
+
+    /* reveal animation */
+    .reveal{opacity:0;transform:translateY(14px);transition:opacity .8s ease, transform .8s ease}
+    .reveal.revealed{opacity:1;transform:none}
+
+    /* small helpers */
+    .center{display:flex;align-items:center;justify-content:center}
+    .muted-small{color:var(--muted);font-size:0.95rem}
+    .thankyou {background:linear-gradient(180deg,#eaf6ff,#ffffff);border-radius:12px;padding:20px;text-align:center;box-shadow:0 12px 30px rgba(2,6,23,0.06)}
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header" role="banner" aria-label="Main header">
+    <div class="brand">
+      <div class="logo-square" aria-hidden="true">
+        <img src="Favicon.-YESSFINANCIAL-PNG.png" alt="">
+      </div>
+      <div>
+        <div class="brand-title">QuickHomeLoans</div>
+        <div style="font-size:12px;color:var(--muted)">Pre-approval made simple</div>
+      </div>
+    </div>
+
+    <nav class="primary" role="navigation" aria-label="Primary">
+      <a href="#benefits">Benefits</a>
+      <a href="#process">How it works</a>
+      <a href="#apply">Apply</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </header>
+
+  <!-- Hero (full-bleed fixed bg) -->
+  <section class="hero" role="region" aria-label="Hero">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-overlay" aria-hidden="true"></div>
+
+    <div class="hero-inner">
+      <div class="hero-left reveal">
+        <span class="eyebrow">Trusted lenders · Fast decisions</span>
+        <h1 class="hero-title">Find the best mortgage offer — fast.</h1>
+        <p class="lead">Get pre-approved in minutes and compare competitive offers from licensed local lenders. No SSN required for estimate — soft credit check only.</p>
+
+        <div class="hero-ctas">
+          <button class="btn btn-primary" onclick="document.getElementById('apply').scrollIntoView({behavior:'smooth'})">Get Pre-Approval</button>
+          <button class="btn btn-ghost" onclick="document.getElementById('faq').scrollIntoView({behavior:'smooth'})">Learn More</button>
+        </div>
+
+        <div style="margin-top:14px;color:rgba(255,255,255,0.92);font-size:0.95rem">We connect you with licensed lenders — compare offers and choose the best fit.</div>
+      </div>
+
+      <aside class="lead-card reveal" aria-labelledby="apply-heading">
+        <h3 id="apply-heading" style="margin:0 0 6px">Free Pre-Approval Estimate</h3>
+        <div class="muted" style="margin-bottom:12px">Quick, secure — lenders will reach out with offers.</div>
+
+        <form id="leadFormMain" aria-describedby="form-note">
+          <div class="field"><label for="fullname">Full name</label><input id="fullname" name="fullname" type="text" placeholder="Jane Doe" required></div>
+          <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" placeholder="you@example.com" required></div>
+          <div class="field"><label for="phone">Phone</label><input id="phone" name="phone" type="tel" inputmode="tel" placeholder="(555) 555-5555" required></div>
+          <div class="field"><label for="loanType">Loan type</label>
+            <select id="loanType" name="loanType">
+              <option>Purchase</option>
+              <option>Refinance</option>
+              <option>Cash-out</option>
+              <option>HELOC</option>
+            </select>
+          </div>
+          <div class="field"><label for="propertyValue">Property value (USD)</label><input id="propertyValue" name="propertyValue" type="text" inputmode="numeric" placeholder="350,000"></div>
+          <div class="field"><label for="loanAmount">Requested loan amount (USD)</label><input id="loanAmount" name="loanAmount" type="text" inputmode="numeric" placeholder="280,000"></div>
+          <div class="field"><label for="message">Message (optional)</label><textarea id="message" name="message" placeholder="Any details for lenders"></textarea></div>
+
+          <div style="display:flex;gap:10px;align-items:flex-start;margin-top:6px">
+            <input id="consentMain" name="consentMain" type="checkbox" required style="width:18px;height:18px;margin-top:6px">
+            <label for="consentMain" style="font-size:0.92rem;color:var(--muted)">I agree to share my info with licensed lenders for rate estimates.</label>
+          </div>
+
+          <div style="margin-top:12px">
+            <button class="submit" type="submit">See My Options</button>
+          </div>
+          <div id="form-note" style="margin-top:10px;color:var(--muted);font-size:0.92rem">By submitting you consent to be contacted via phone and email.</div>
+        </form>
+
+        <!-- thank you message (hidden by default) -->
+        <div id="thankYouMain" class="thankyou" style="display:none;margin-top:12px">
+          <h4 style="margin:0 0 6px">Thank you — we received your request.</h4>
+          <div class="muted-small">A loan officer will contact you within 24–48 hours. If you need immediate help, call <a href="tel:18005551234">1-800-555-1234</a>.</div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Benefits (full-bleed soft background) -->
+  <section id="benefits" class="full-bleed section section-soft" aria-labelledby="benefits-heading">
+    <div class="inner reveal">
+      <h2 id="benefits-heading">Why people choose QuickHomeLoans</h2>
+      <p class="lead-muted">A straightforward experience built to help you compare offers and close faster.</p>
+
+      <div class="features" style="margin-top:18px">
+        <div class="feature">
+          <div style="font-size:20px;color:var(--accent)">🏷️</div>
+          <h4>Transparent pricing</h4>
+          <p>Clear rate quotes and no surprise fees — compare side-by-side before committing.</p>
+        </div>
+
+        <div class="feature">
+          <div style="font-size:20px;color:var(--accent)">⚡</div>
+          <h4>Fast matching</h4>
+          <p>Get connected with up to 3 local lenders and receive offers quickly.</p>
+        </div>
+
+        <div class="feature">
+          <div style="font-size:20px;color:var(--accent)">🔒</div>
+          <h4>Secure & compliant</h4>
+          <p>Encrypted data transfers and verified, licensed lenders only.</p>
+        </div>
+      </div>
+
+      <div style="margin-top:20px" class="visual">
+        <img loading="lazy" src="phil-hearing-IYfp2Ixe9nM-unsplash.jpg" alt="Modern house exterior, bright and clean">
+      </div>
+    </div>
+  </section>
+
+  <!-- Process (full-bleed quiet background) -->
+  <section id="process" class="full-bleed section section-quiet" aria-labelledby="process-heading">
+    <div class="inner split reveal">
+      <div>
+        <h2 id="process-heading">How it works</h2>
+        <p class="lead-muted">Three simple steps to get pre-approved and compare offers from local lenders.</p>
+
+        <div class="steps" style="margin-top:14px">
+          <div class="step"><div class="num">1</div><div><strong>Quick form</strong><div class="muted">Tell us a few details to start — takes under a minute.</div></div></div>
+          <div class="step"><div class="num">2</div><div><strong>Match with lenders</strong><div class="muted">We connect you with licensed lenders who fit your needs.</div></div></div>
+          <div class="step"><div class="num">3</div><div><strong>Compare & choose</strong><div class="muted">Review offers, speak with loan officers, and select the best option.</div></div></div>
+        </div>
+      </div>
+
+      <div class="visual">
+        <img loading="lazy" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80" alt="Loan advisor discussing options with clients">
+      </div>
+    </div>
+  </section>
+
+  <!-- Apply (detailed form & image) -->
+  <section id="apply" class="full-bleed section section-soft" aria-labelledby="apply-heading">
+    <div class="inner split reverse reveal">
+      <div class="visual visual-with-text">
+        <div class="visual-text">
+            <h3>Secure Your Dream Home</h3>
+            <p>Get pre-approved quickly and explore mortgage options from trusted lenders.</p>
+        </div>
+        <img loading="lazy" src="frames-for-your-heart-mR1CIDduGLc-unsplash.jpg" alt="Person filling out online mortgage application">
+        </div>
+
+      <div>
+        <h2 id="apply-heading">Ready to see your options?</h2>
+        <p class="lead-muted">Fill the short form to receive pre-approval estimates and lender outreach.</p>
+
+        <div style="margin-top:12px" class="lead-card">
+          <form id="leadFormDetail">
+            <div class="field"><label for="fullname2">Full name</label><input id="fullname2" name="fullname2" type="text" placeholder="John Smith" required></div>
+            <div class="field"><label for="email2">Email</label><input id="email2" name="email2" type="email" placeholder="you@example.com" required></div>
+            <div class="field"><label for="phone2">Phone</label><input id="phone2" name="phone2" type="tel" inputmode="tel" placeholder="(555) 555-5555" required></div>
+            <!--<div class="field"><label for="loanType2">Loan type</label>
+              <select id="loanType2" name="loanType2"><option>Purchase</option><option>Refinance</option><option>Cash-out</option><option>HELOC</option></select>
+            </div>
+            <div class="field"><label for="propertyValue2">Property value (USD)</label><input id="propertyValue2" name="propertyValue2" type="text" inputmode="numeric" placeholder="350,000"></div>
+            <div class="field"><label for="loanAmount2">Requested loan amount (USD)</label><input id="loanAmount2" name="loanAmount2" type="text" inputmode="numeric" placeholder="280,000"></div>-->
+            <div class="field"><label for="message2">Message (optional)</label><textarea id="message2" name="message2" placeholder="Any details for lenders"></textarea></div>
+
+            <div style="display:flex;gap:10px;align-items:flex-start">
+              <input id="consent2" name="consent2" type="checkbox" required style="width:18px;height:18px;margin-top:6px">
+              <label for="consent2" style="font-size:0.92rem;color:var(--muted)">I agree to share my info with licensed lenders.</label>
+            </div>
+
+            <div style="margin-top:12px">
+              <button class="submit" type="submit">Get My Pre-Approval</button>
+            </div>
+          </form>
+
+          <!-- detail form thank you -->
+          <div id="thankYouDetail" class="thankyou" style="display:none;margin-top:12px">
+            <h4 style="margin:0 0 6px">Thanks — we received your request.</h4>
+            <div class="muted-small">A loan officer will contact you within 24–48 hours. Call <a href="tel:18005551234">1-800-555-1234</a> for urgent help.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ (full-bleed) -->
+  <section id="faq" class="full-bleed section section-quiet" aria-labelledby="faq-heading">
+    <div class="inner reveal">
+      <h2 id="faq-heading">Frequently asked questions</h2>
+      <p class="lead-muted">Short answers to common questions about pre-approval and our process.</p>
+
+      <div class="faq-grid" style="margin-top:12px">
+        <div>
+          <details class="faq"><summary>Will this affect my credit?</summary><p>Initial pre-qualification uses a soft credit check and will not affect your credit score. A hard pull may be requested by lenders later.</p></details>
+          <details class="faq"><summary>Is my information safe?</summary><p>Yes. We only share with licensed lenders and use encryption in transit. We do not sell your personal data.</p></details>
+          <details class="faq"><summary>How quickly will lenders contact me?</summary><p>Most users receive outreach within 24–48 hours after submitting the form; some lenders may contact sooner.</p></details>
+        </div>
+<!--
+        <aside class="visual">
+          <img loading="lazy" src="phil-hearing-IYfp2Ixe9nM-unsplash.jpg" alt="Mortgage consultant helping client">
+        </aside>-->
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer (full width) -->
+  <footer class="global-footer" role="contentinfo">
+    <div class="inner" style="align-items:center;">
+      <div>© <strong>QuickHomeLoans</strong> — Licensed Mortgage Lead Service. Not a lender.</div>
+      <div class="muted">By submitting you consent to be contacted by phone & email. Offers subject to lender approval.</div>
+    </div>
+  </footer>
+
+  <script>
+    // Reveal-on-scroll (IntersectionObserver)
+    (function(){
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting) e.target.classList.add('revealed');
+        });
+      }, {threshold: 0.12});
+      document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    })();
+
+    // Form handlers: show simple thank-you message in-place
+    function simpleFormHandler(formId, thankId, alertText){
+      const form = document.getElementById(formId);
+      const thank = document.getElementById(thankId);
+      if(!form || !thank) return;
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        // quick validation: ensure required fields
+        const required = Array.from(form.querySelectorAll('[required]'));
+        for(const r of required){
+          if((r.type === 'checkbox' && !r.checked) || (r.type !== 'checkbox' && !r.value.trim())){
+            r.focus();
+            return;
+          }
+        }
+        // mimic submit
+        const btn = form.querySelector('button[type="submit"]');
+        if(btn){ btn.disabled = true; btn.textContent = 'Submitting...'; }
+        setTimeout(()=>{
+          if(btn){ btn.disabled = false; btn.textContent = 'Get My Pre-Approval'; }
+          form.style.display = 'none';
+          thank.style.display = 'block';
+          // focus the thank you for accessibility
+          thank.setAttribute('tabindex', '-1');
+          thank.focus();
+          // optional alert
+          if(alertText) console.log(alertText);
+        }, 900);
+      });
+    }
+
+    simpleFormHandler('leadFormMain', 'thankYouMain', 'Main lead submitted');
+    simpleFormHandler('leadFormDetail', 'thankYouDetail', 'Detail lead submitted');
+
+    // Smooth anchor links
+    (function(){
+      document.querySelectorAll('a[href^="#"]').forEach(a=>{
+        a.addEventListener('click', (e)=>{
+          const id = a.getAttribute('href').slice(1);
+          const el = document.getElementById(id);
+          if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth'}); history.replaceState(null,'', '#'+id); }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
